@@ -48,6 +48,30 @@ public class AccesoProducto {
         return true;
     }
 
+    public static int descuentoCategoria(Categoria categoria, double descuento) throws IOException {
+        MiRandomAccessFile flujoEntrada = null;
+        int numActualizados = 0;
+        try {
+            flujoEntrada = obtenerMiFlujo(FICHERO, "rw");
+            flujoEntrada.seek(0);
+            while (flujoEntrada.getFilePointer() < flujoEntrada.length()) {
+                Producto productoLeido = leerProducto(flujoEntrada);
+
+                if (productoLeido.getCodigo() > 0 && productoLeido.getCategoria().equals(categoria)) {
+                    productoLeido.setPrecio(productoLeido.getPrecio() * descuento);
+                    actualizarProducto(productoLeido);
+                    numActualizados++;
+                }
+            }
+        } finally {
+            if (flujoEntrada != null) {
+                flujoEntrada.close();
+            }
+        }
+
+        return numActualizados;
+    }
+
     public static boolean eliminarProducto(int codigo) throws IOException {
         MiRandomAccessFile flujoSalida = null;
         try {

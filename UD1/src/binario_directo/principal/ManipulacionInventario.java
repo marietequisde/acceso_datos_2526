@@ -22,13 +22,13 @@ public class ManipulacionInventario {
                 case 0:
                     break;
                 case 1:
-                    escribirProducto("nombreTest", "Calzado", new Fecha("03/03/2003"), 13, 3.5);
+                    escribirProducto("nombreTest", "Electrodomésticos", new Fecha("03/03/2003"), 13, 3.5);
                     break;
                 case 2:
                     actualizarProducto(Teclado.leerEntero("Código: "), new Fecha("06/07/2008"), 10, 5.25);
                     break;
                 case 3:
-                    System.out.println("No implementado.");
+                    descuentoCategoria(Categoria.Calzado, 0.5);
                     break;
                 case 4:
                     eliminarProducto(Teclado.leerEntero("Código: "));
@@ -66,6 +66,20 @@ public class ManipulacionInventario {
                 System.out.println("Producto actualizado del fichero.");
             } else {
                 System.out.println("Producto no encontrado con el código en el fichero.");
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void descuentoCategoria(Categoria categoria, double descuento) {
+        try {
+            int numActualizados = AccesoProducto.descuentoCategoria(categoria, descuento);
+            if (numActualizados > 0) {
+                System.out.println(numActualizados + " productos actualizados del fichero.");
+            } else {
+                System.out.println("Productos no encontrados con la categoría en el fichero.");
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
