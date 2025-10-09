@@ -113,6 +113,51 @@ public class AccesoProducto {
         return productos;
     }
 
+    public static List<Producto> leerProductos(double minPrecio, double maxPrecio) throws IOException {
+        MiRandomAccessFile flujoEntrada = null;
+        List<Producto> productos = new ArrayList<>();
+
+        try {
+            flujoEntrada = obtenerMiFlujo(FICHERO, "r");
+            flujoEntrada.seek(0);
+            while (flujoEntrada.getFilePointer() < flujoEntrada.length()) {
+                Producto productoLeido = leerProducto(flujoEntrada);
+                if (productoLeido.getCodigo() > 0 && productoLeido.getPrecio() >= minPrecio
+                        && productoLeido.getPrecio() <= maxPrecio) {
+                    productos.add(productoLeido);
+                }
+            }
+        } finally {
+            if (flujoEntrada != null) {
+                flujoEntrada.close();
+            }
+        }
+
+        return productos;
+    }
+    
+    public static List<Producto> leerProductosDisponibles() throws IOException {
+        MiRandomAccessFile flujoEntrada = null;
+        List<Producto> productos = new ArrayList<>();
+
+        try {
+            flujoEntrada = obtenerMiFlujo(FICHERO, "r");
+            flujoEntrada.seek(0);
+            while (flujoEntrada.getFilePointer() < flujoEntrada.length()) {
+                Producto productoLeido = leerProducto(flujoEntrada);
+                if (productoLeido.getCodigo() > 0 && productoLeido.getCantidad() > 0) {
+                    productos.add(productoLeido);
+                }
+            }
+        } finally {
+            if (flujoEntrada != null) {
+                flujoEntrada.close();
+            }
+        }
+
+        return productos;
+    }
+
     public static Producto leerProducto(int codigo) throws IOException {
         MiRandomAccessFile flujoEntrada = null;
         Producto producto = null;
@@ -180,7 +225,7 @@ public class AccesoProducto {
     }
 
     private static void escribirProducto(Producto producto, MiRandomAccessFile flujoSalida) throws IOException {
-        producto.toSerializable();
+        producto.normalizarLargoStrings();
 
         flujoSalida.writeInt(producto.getCodigo());
         flujoSalida.writeChars(producto.getNombre());

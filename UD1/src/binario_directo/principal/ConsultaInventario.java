@@ -26,16 +26,16 @@ public class ConsultaInventario {
                     leerProducto(Teclado.leerEntero("Código: "));
                     break;
                 case 3:
-                    System.out.println("No implementado.");
+                    leerProductos(Teclado.leerReal("Precio mínimo: "), Teclado.leerReal("Precio máximo: "));
                     break;
                 case 4:
-                    System.out.println("No implementado.");
+                    leerProductosDisponibles();
                     break;
                 case 5:
-                    System.out.println("No implementado.");
+                    System.err.println("No implementado.");
                     break;
                 case 6:
-                    System.out.println("No implementado.");
+                    System.err.println("No implementado.");
                     break;
                 default:
                     break;
@@ -51,6 +51,36 @@ public class ConsultaInventario {
     private static void leerProductos() {
         try {
             List<Producto> leidos = AccesoProducto.leerProductos();
+            if (leidos.isEmpty()) {
+                System.out.println("Productos no encontrados en el fichero.");
+            }
+            for (Producto producto : leidos) {
+                System.out.println(producto.toString());
+            }
+            System.out.println("Se han consultado " + leidos.size() + " productos.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void leerProductosDisponibles() {
+        try {
+            List<Producto> leidos = AccesoProducto.leerProductosDisponibles();
+            if (leidos.isEmpty()) {
+                System.out.println("Productos no encontrados en el fichero.");
+            }
+            for (Producto producto : leidos) {
+                System.out.println(producto.toString());
+            }
+            System.out.println("Se han consultado " + leidos.size() + " productos.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void leerProductos(double minPrecio, double maxPrecio) {
+        try {
+            List<Producto> leidos = AccesoProducto.leerProductos(minPrecio, maxPrecio);
             if (leidos.isEmpty()) {
                 System.out.println("Productos no encontrados en el fichero.");
             }

@@ -35,7 +35,7 @@ public class Producto {
         this.precio = precio;
     }
 
-    public void toSerializable() {
+    public void normalizarLargoStrings() {
         StringBuffer buffer = new StringBuffer(this.nombre);
         buffer.setLength(LONGITUD_NOMBRE);
         this.nombre = buffer.toString();

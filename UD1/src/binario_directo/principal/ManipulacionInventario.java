@@ -22,7 +22,7 @@ public class ManipulacionInventario {
                 case 0:
                     break;
                 case 1:
-                    escribirProducto("nombreTest", "Electrodomésticos", new Fecha("03/03/2003"), 13, 3.5);
+                    escribirProducto("nombreTest", "Electrodomésticos", new Fecha("03/03/2003"), 0, 3.5);
                     break;
                 case 2:
                     actualizarProducto(Teclado.leerEntero("Código: "), new Fecha("06/07/2008"), 10, 5.25);
@@ -34,10 +34,10 @@ public class ManipulacionInventario {
                     eliminarProducto(Teclado.leerEntero("Código: "));
                     break;
                 case 5:
-                    System.out.println("No implementado.");
+                    System.err.println("No implementado.");
                     break;
                 case 6:
-                    System.out.println("No implementado.");
+                    System.err.println("No implementado.");
                     break;
                 default:
                     break;
