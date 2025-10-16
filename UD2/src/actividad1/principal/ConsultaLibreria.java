@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import actividad1.acceso.AccesoLibreria;
+import actividad1.auxiliar.Resultado6;
 import actividad1.modelo.Escritor;
 import entrada.Teclado;
 import util.Consola;
@@ -20,17 +21,22 @@ public class ConsultaLibreria {
             try {
                 switch (opcion) {
                 case 0:
-                    
+
                     break;
-                    
+
                 case 1:
                     consultarEscritor(Teclado.leerEntero("Codigo: "));
                     break;
-                    
+
                 case 3:
                     consultarEscritores(Consola.leerFecha("Fecha ini: "), Consola.leerFecha("Fecha fin: "));
                     break;
+
+                case 6:
+                    consultarTituloAnyoPrecioAsc(Teclado.leerReal("Precio min: "), Teclado.leerReal("Precio max: "));
+                    break;
                 default:
+                    System.out.println("No implementado");
                     break;
                 }
 
@@ -41,7 +47,7 @@ public class ConsultaLibreria {
         } while (opcion != 0);
 
     }
-    
+
     private static void escribirMenuOpciones() {
         System.out.println();
         System.out.println("(1) Consultar un escritor de la base de datos por código.\r\n"
@@ -54,7 +60,7 @@ public class ConsultaLibreria {
                 + "(8) Consultar el número y el precio medio de los libros de cada escritor de la base de datos.");
         System.out.println();
     }
-    
+
     private static void consultarEscritor(int codigo) {
         try {
             Escritor escritor = AccesoLibreria.consultarEscritor(codigo);
@@ -70,19 +76,19 @@ public class ConsultaLibreria {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private static void consultarEscritores(Date fechaNacimientoIni, Date fechaNacimientoFin) {
         try {
-            List<Escritor> escritores = AccesoLibreria.consultarEscritores(fechaNacimientoIni, fechaNacimientoFin);
-            if (escritores.isEmpty()) {
+            List<Escritor> leidos = AccesoLibreria.consultarEscritores(fechaNacimientoIni, fechaNacimientoFin);
+            if (leidos.isEmpty()) {
                 System.out.println("Escritores no encontrados en el fichero.");
             }
-            for (Escritor escritor : escritores) {
+            for (Escritor escritor : leidos) {
                 System.out.println(escritor.toString());
             }
-            System.out.println("Se han consultado " + escritores.size() + " escritores.");
+            System.out.println("Se han consultado " + leidos.size() + " registros.");
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -90,7 +96,27 @@ public class ConsultaLibreria {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
+    }
+
+    private static void consultarTituloAnyoPrecioAsc(double precioMin, double precioMax) {
+        try {
+            List<Resultado6> leidos = AccesoLibreria.consultarTituloAnyoPrecioAsc(precioMin, precioMax);
+            if (leidos.isEmpty()) {
+                System.out.println("Registros no encontrados en el fichero.");
+            }
+            for (Resultado6 resultado6 : leidos) {
+                System.out.println(resultado6.toString());
+            }
+            System.out.println("Se han consultado " + leidos.size() + " registros.");
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }
