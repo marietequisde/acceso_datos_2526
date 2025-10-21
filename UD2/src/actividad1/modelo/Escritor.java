@@ -18,6 +18,14 @@ public class Escritor {
         this.fechaFallecimiento = fechaFallecimiento;
     }
 
+    public Escritor(String nombre, String nacionalidad, Date fechaNacimiento, Date fechaFallecimiento) {
+        super();
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaFallecimiento = fechaFallecimiento;
+    }
+
     public int getCodigo() {
         return codigo;
     }

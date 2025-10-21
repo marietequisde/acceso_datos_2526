@@ -10,7 +10,7 @@ import java.util.List;
 
 import actividad1.auxiliar.Resultado;
 import actividad1.modelo.Escritor;
-import actividad1.modelo.Libro;
+import util.Fechas;
 
 public class AccesoLibreria {
 
@@ -85,6 +85,34 @@ public class AccesoLibreria {
         return libros;
     }
 
+    public static int insertarEscritor(Escritor escritor) throws SQLException, ClassNotFoundException {
+        Connection conexion = null;
+        try {
+            conexion = SQLiteUtil.abrirConexion();
+            String sql = "INSERT INTO escritor (nombre, nacionalidad, fecha_nacimiento, fecha_fallecimiento) "
+                    + "VALUES (?, ?, ?, ?)";
+            PreparedStatement sentencia = conexion.prepareStatement(sql);
+            sentencia.setString(1, escritor.getNombre());
+            sentencia.setString(2, escritor.getNacionalidad());
+            sentencia.setString(3, escritor.getFechaNacimiento().toString());
+            if (escritor.getFechaFallecimiento() != null) {
+                sentencia.setString(4, escritor.getFechaFallecimiento().toString());
+            }
+
+            sentencia.executeUpdate();
+            ResultSet resultado = sentencia.getGeneratedKeys();
+            int codigo = -1;
+            if (resultado.next()) {
+                codigo = resultado.getInt(1);
+            }
+            return codigo;
+        }
+
+        finally {
+            SQLiteUtil.cerrarConexion(conexion);
+        }
+    }
+
     private static Escritor obtenerEscritor(ResultSet resultados) throws SQLException {
         int codigo = resultados.getInt("codigo");
         String nombre = resultados.getString("nombre");
@@ -92,8 +120,8 @@ public class AccesoLibreria {
         String fechaNacimiento = resultados.getString("fecha_nacimiento");
         String fechaFallecimiento = resultados.getString("fecha_fallecimiento");
 
-        return new Escritor(codigo, nombre, nacionalidad, parsearFecha(fechaNacimiento),
-                parsearFecha(fechaFallecimiento));
+        return new Escritor(codigo, nombre, nacionalidad, Fechas.parsearFecha(fechaNacimiento),
+                Fechas.parsearFecha(fechaFallecimiento));
     }
 
     private static Resultado obtenerResultado6(ResultSet resultados) throws SQLException {
@@ -105,27 +133,6 @@ public class AccesoLibreria {
         resultado.ponerCampo("anio", anio + "");
         resultado.ponerCampo("precio", precio + "");
         return resultado;
-    }
-
-    /*
-     * private static Libro obtenerLibro(ResultSet resultados) throws SQLException {
-     * int codigo = resultados.getInt("codigo"); Escritor escritor = con String
-     * nacionalidad = resultados.getString("nacionalidad"); String fechaNacimiento =
-     * resultados.getString("fecha_nacimiento"); String fechaFallecimiento =
-     * resultados.getString("fecha_fallecimiento");
-     * 
-     * return new Escritor(codigo, nombre, nacionalidad,
-     * parsearFecha(fechaNacimiento), parsearFecha(fechaFallecimiento)); }
-     */
-
-    private static Date parsearFecha(String cadenaFecha) {
-        Date fecha = null;
-
-        if (cadenaFecha != null) {
-            fecha = Date.valueOf(cadenaFecha);
-        }
-
-        return fecha;
     }
 
 }
