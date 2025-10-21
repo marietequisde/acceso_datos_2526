@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import actividad1.auxiliar.Resultado6;
+import actividad1.auxiliar.Resultado;
 import actividad1.modelo.Escritor;
 import actividad1.modelo.Libro;
 
@@ -58,14 +58,15 @@ public class AccesoLibreria {
         }
         return escritores;
     }
-    
-    public static List<Resultado6> consultarTituloAnyoPrecioAsc(double precioMin, double precioMax)
+
+    public static List<Resultado> consultarTituloAnyoPrecioAsc(double precioMin, double precioMax)
             throws ClassNotFoundException, SQLException {
         Connection conexion = null;
-        List<Resultado6> libros = new ArrayList<>();
+        List<Resultado> libros = new ArrayList<>();
         try {
             conexion = SQLiteUtil.abrirConexion();
-            String sql = "SELECT titulo, anio_publicacion, precio FROM libro " + "WHERE precio " + "BETWEEN ? AND ? ORDER BY precio ASC";
+            String sql = "SELECT titulo, anio_publicacion, precio FROM libro " + "WHERE precio "
+                    + "BETWEEN ? AND ? ORDER BY precio ASC";
             PreparedStatement sentencia = conexion.prepareStatement(sql);
             sentencia.setDouble(1, precioMin);
             sentencia.setDouble(2, precioMax);
@@ -94,12 +95,16 @@ public class AccesoLibreria {
         return new Escritor(codigo, nombre, nacionalidad, parsearFecha(fechaNacimiento),
                 parsearFecha(fechaFallecimiento));
     }
-    
-    private static Resultado6 obtenerResultado6(ResultSet resultados) throws SQLException {
+
+    private static Resultado obtenerResultado6(ResultSet resultados) throws SQLException {
         String titulo = resultados.getString("titulo");
         int anio = resultados.getInt("anio_publicacion");
         double precio = resultados.getDouble("precio");
-        return new Resultado6(titulo, anio, precio);
+        Resultado resultado = new Resultado();
+        resultado.ponerCampo("titulo", titulo);
+        resultado.ponerCampo("anio", anio + "");
+        resultado.ponerCampo("precio", precio + "");
+        return resultado;
     }
 
     /*

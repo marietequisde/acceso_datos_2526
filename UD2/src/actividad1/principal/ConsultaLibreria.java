@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import actividad1.acceso.AccesoLibreria;
-import actividad1.auxiliar.Resultado6;
+import actividad1.auxiliar.Resultado;
 import actividad1.modelo.Escritor;
 import entrada.Teclado;
 import util.Consola;
@@ -101,11 +101,11 @@ public class ConsultaLibreria {
 
     private static void consultarTituloAnyoPrecioAsc(double precioMin, double precioMax) {
         try {
-            List<Resultado6> leidos = AccesoLibreria.consultarTituloAnyoPrecioAsc(precioMin, precioMax);
+            List<Resultado> leidos = AccesoLibreria.consultarTituloAnyoPrecioAsc(precioMin, precioMax);
             if (leidos.isEmpty()) {
                 System.out.println("Registros no encontrados en el fichero.");
             }
-            for (Resultado6 resultado6 : leidos) {
+            for (Resultado resultado6 : leidos) {
                 System.out.println(resultado6.toString());
             }
             System.out.println("Se han consultado " + leidos.size() + " registros.");
