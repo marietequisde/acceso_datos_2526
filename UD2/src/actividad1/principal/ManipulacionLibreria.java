@@ -21,7 +21,9 @@ public class ManipulacionLibreria {
                     break;
 
                 case 1:
-                    insertarEscritor(new Escritor("juan", "italiana", Fechas.parsearFecha("1990-05-20"), Fechas.parsearFecha("")));
+                    insertarEscritor(new Escritor(Teclado.leerCadena("Nombre: "), Teclado.leerCadena("Nacionalidad: "),
+                            Fechas.parsearFecha(Teclado.leerCadena("Fecha de nacimiento: ")),
+                            Fechas.parsearFecha(Teclado.leerCadena("Fecha de fallecimiento (dejar en blanco si no): "))));
                     break;
                 default:
                     System.out.println("No implementado");
@@ -46,7 +48,7 @@ public class ManipulacionLibreria {
                 + "(6) Eliminar los libros de la base de datos que tienen un tamaño entre dos extensiones.");
         System.out.println();
     }
-    
+
     private static void insertarEscritor(Escritor escritor) {
         int codigo;
         try {
