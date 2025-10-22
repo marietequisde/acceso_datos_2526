@@ -87,6 +87,7 @@ public class AccesoLibreria {
 
     public static int insertarEscritor(Escritor escritor) throws SQLException, ClassNotFoundException {
         Connection conexion = null;
+        int codigo = -1;
         try {
             conexion = SQLiteUtil.abrirConexion();
             String sql = "INSERT INTO escritor (nombre, nacionalidad, fecha_nacimiento, fecha_fallecimiento) "
@@ -103,16 +104,18 @@ public class AccesoLibreria {
 
             sentencia.executeUpdate();
             ResultSet resultado = sentencia.getGeneratedKeys();
-            int codigo = -1;
+
             if (resultado.next()) {
                 codigo = resultado.getInt(1);
             }
-            return codigo;
+
         }
 
         finally {
             SQLiteUtil.cerrarConexion(conexion);
         }
+
+        return codigo;
     }
 
     private static Escritor obtenerEscritor(ResultSet resultados) throws SQLException {
