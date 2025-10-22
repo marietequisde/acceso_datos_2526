@@ -97,6 +97,8 @@ public class AccesoLibreria {
             sentencia.setString(3, escritor.getFechaNacimiento().toString());
             if (escritor.getFechaFallecimiento() != null) {
                 sentencia.setString(4, escritor.getFechaFallecimiento().toString());
+            } else {
+                sentencia.setString(4, null);
             }
 
             sentencia.executeUpdate();
